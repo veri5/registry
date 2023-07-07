@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://verifive.io/element.schema.json",
+  "title": "Element",
+  "description": "An element in a trust protocol namespace",
+  "type": "object",
+  "properties": {
+    "uuid": {
+      "description": "a unique identifier for this element",
+      "type": "string"
+    },
+    "name": {
+      "description": "the human-readable name of this element",
+      "type": "string"
+    },
+    "version": {
+      "description": "a counter for the number of times this element has been updated",
+      "type": "integer"
+    },
+    "parent": {
+      "description": "the uuid of the parent element or null for the root element",
+      "type": "string"
+    },
+    "owner": {
+      "description": "the DID or element UUID who owns this element",
+      "type": "string"
+    },
+    "credentials": {
+      "description": "a list of credentials the owner presented upon creating this element. This is used to verifiy that a company has passed KYB for example. If the owner looses any of these credentials, then the entire namespace is invalidated",
+      "type": "object",
+      "properties": {
+        "elements": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "join": {
+          "type": "string",
+          "enum": [
+            "and",
+            "or"
+          ]
+        }
+      }
+    },
+    "manifest": {
+      "description": "The manifest contains the attributes required to request the issuance of an element. It also determines the attributes a verifier can expect to be presented in order to verify the element",
+      "type": "object"
+    },
+    "issuer": {
+      "description": "the DID or element UUID required to issue this element",
+      "type": "string"
+    },
+    "revoker": {
+      "description": "the DID or element UUID required to revoke this element",
+      "type": "string"
+    },
+    "custom_verification": {
+      "description": "a function which can be executed to validate the claim represented by this element. Examples include: is it day or night, has the user paid their bill, has the user staked sufficient HBAR",
+      "type": "string"
+    }
+  },
+  "required": [
+    "uuid",
+    "name",
+    "version",
+    "parent",
+    "owner",
+    "manifest",
+    "issuer",
+    "revoker"
+  ]
+}
